@@ -218,7 +218,8 @@ def TestUsagePerSNP(gene, gene_usage, genotype, output_dir):
         plt.ylabel('usage')
         plt.savefig(os.path.join(output_dir, basename + '_per_usage_type.pdf'))
         plt.clf()
-        pos_df.to_csv(os.path.join(output_dir, basename + '_per_usage_type.csv'), sep = ',', index = False)
+        columns = ['Gene', 'Individual', 'Usage', 'UsageType', 'Genotype', 'Position', 'State']
+        pos_df.to_csv(os.path.join(output_dir, basename + '_per_usage_type.csv'), sep = ',', columns = columns)
         #
         pos_df = merged_df.loc[(merged_df['Position'] == pos)]
         states = list(set(pos_df['State']))
@@ -365,8 +366,8 @@ def OutputUsageDynamicsStats(usage_dynamics_stats, output_dir):
     df = {'Gene' : [], 'P-value' : [], 'F-value' : [], 'Likelihood' : []}
     for gene, stats in usage_dynamics_stats:
         df['Gene'].append(gene[3 : ])
-        df['P-value'].append(stats[0])
-        df['F-value'].append(stats[1])
+        df['P-value'].append(stats[1])
+        df['F-value'].append(stats[0])
         df['Likelihood'].append(-math.log(stats[1], 10))
     df = pd.DataFrame(df)
     plt.figure()
